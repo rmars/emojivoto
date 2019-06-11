@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/buoyantio/emojivoto/db"
 	pb "github.com/buoyantio/emojivoto/emojivoto-web/gen/proto"
 	"github.com/buoyantio/emojivoto/graphql"
 	"github.com/graph-gophers/graphql-go/relay"
@@ -16,6 +17,7 @@ import (
 )
 
 type WebApp struct {
+	db                  *db.DBClient
 	graphql             *relay.Handler
 	emojiServiceClient  pb.EmojiServiceClient
 	votingServiceClient pb.VotingServiceClient
@@ -394,13 +396,14 @@ func writeError(err error, w http.ResponseWriter, r *http.Request, status int) {
 	json.NewEncoder(w).Encode(errorMessage)
 }
 
-func StartServer(webPort, webpackDevServer, indexBundle string,
+func StartServer(webPort, webpackDevServer, indexBundle string, database *db.DBClient,
 	emojiServiceClient pb.EmojiServiceClient,
 	votingClient pb.VotingServiceClient) {
 
-	schema := graphql.NewGraphQLServer()
+	schema := graphql.NewGraphQLServer(database)
 
 	webApp := &WebApp{
+		db:                  database,
 		graphql:             &relay.Handler{Schema: schema},
 		emojiServiceClient:  emojiServiceClient,
 		votingServiceClient: votingClient,
