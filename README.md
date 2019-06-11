@@ -13,43 +13,9 @@ The application is composed of the following 3 services:
 
 ## Running
 
-### In Minikube
-
-Deploy the application to Minikube using the Linkerd2 service mesh.
-
-1. Install the `linkerd` CLI
-
-```
-curl https://run.linkerd.io/install | sh
-```
-
-2. Install Linkerd2
-
-```
-linkerd install | kubectl apply -f -
-```
-
-3. View the dashboard!
-
-```
-linkerd dashboard
-```
-
-4. Inject, Deploy, and Enjoy
-
-```
-linkerd inject emojivoto.yml | kubectl apply -f -
-```
-
-5. Use the app!
-
-```
-minikube -n emojivoto service web-svc
-```
-
 ### In docker-compose
 
-It's also possible to run the app with docker-compose (without Linkerd2).
+It's possible to run the app with docker-compose.
 
 Build and run:
 
@@ -74,24 +40,6 @@ If you'd like to run the bot manually:
 export WEB_HOST=localhost:8080 # replace with your web location
 go run emojivoto-web/cmd/vote-bot/main.go
 ```
-
-## Releasing a new version
-
-To update the docker images:
-1. Update the tag name in `common.mk`
-2. Update the base image tags in `Makefile` and `Dockerfile`
-3. Build base docker image `make build-base-docker-image`
-4. Build docker images `make build`
-5. Push the docker images to hub.docker.com
-```bash
-docker login
-docker push buoyantio/emojivoto-svc-base:v8
-docker push buoyantio/emojivoto-emoji-svc:v8
-docker push buoyantio/emojivoto-voting-svc:v8
-docker push buoyantio/emojivoto-web:v8
-```
-6. Update `emojivoto.yml`, `docker-compose.yml`
-
 
 ## Local Development
 
