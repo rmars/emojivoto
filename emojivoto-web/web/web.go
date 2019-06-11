@@ -6,18 +6,38 @@ import (
 	"fmt"
 	"html/template"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"strconv"
 
 	pb "github.com/buoyantio/emojivoto/emojivoto-web/gen/proto"
+	"github.com/buoyantio/emojivoto/graphql"
+	"github.com/graph-gophers/graphql-go/relay"
+	log "github.com/sirupsen/logrus"
 )
 
 type WebApp struct {
+	graphql             *relay.Handler
 	emojiServiceClient  pb.EmojiServiceClient
 	votingServiceClient pb.VotingServiceClient
 	indexBundle         string
 	webpackDevServer    string
+}
+
+func (app *WebApp) handleGraphqlServer(w http.ResponseWriter, req *http.Request) {
+	app.graphql.ServeHTTP(w, req)
+}
+
+func (app *WebApp) handleGraphqlPlayground(w http.ResponseWriter, req *http.Request) {
+	tmpl, err := template.ParseFiles("graphql/playground.tmpl.html")
+	if err != nil {
+		log.Error(err.Error())
+		http.Error(w, "internal server error", http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "text/html")
+	err = tmpl.Execute(w, struct{}{})
+	return
 }
 
 func (app *WebApp) listEmojiHandler(w http.ResponseWriter, r *http.Request) {
@@ -374,8 +394,14 @@ func writeError(err error, w http.ResponseWriter, r *http.Request, status int) {
 	json.NewEncoder(w).Encode(errorMessage)
 }
 
-func StartServer(webPort, webpackDevServer, indexBundle string, emojiServiceClient pb.EmojiServiceClient, votingClient pb.VotingServiceClient) {
+func StartServer(webPort, webpackDevServer, indexBundle string,
+	emojiServiceClient pb.EmojiServiceClient,
+	votingClient pb.VotingServiceClient) {
+
+	schema := graphql.NewGraphQLServer()
+
 	webApp := &WebApp{
+		graphql:             &relay.Handler{Schema: schema},
 		emojiServiceClient:  emojiServiceClient,
 		votingServiceClient: votingClient,
 		indexBundle:         indexBundle,
@@ -390,6 +416,10 @@ func StartServer(webPort, webpackDevServer, indexBundle string, emojiServiceClie
 	http.HandleFunc("/api/list", webApp.listEmojiHandler)
 	http.HandleFunc("/api/vote", webApp.voteEmojiHandler)
 	http.HandleFunc("/api/leaderboard", webApp.leaderboardHandler)
+
+	// graphql server and playground
+	http.HandleFunc("/api/graphql", webApp.handleGraphqlServer)
+	http.HandleFunc("/graphql", webApp.handleGraphqlPlayground)
 
 	// TODO: make static assets dir configurable
 	http.Handle("/dist/", http.StripPrefix("/dist/", http.FileServer(http.Dir("dist"))))
