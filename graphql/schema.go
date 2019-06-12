@@ -20,10 +20,6 @@ type (
 		string
 	}
 
-	helloArgs struct {
-		Name string
-	}
-
 	userResolver struct {
 		Resolver
 		u *db.User
@@ -58,7 +54,7 @@ type Emoji {
 }
 `
 
-func (r *Resolver) Hello(args helloArgs) string {
+func (r *Resolver) Hello(args *struct{ Name string }) string {
 	return fmt.Sprintf("Hello %s!", args.Name)
 }
 
