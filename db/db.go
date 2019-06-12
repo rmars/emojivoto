@@ -41,12 +41,12 @@ func seedDatabase(db *gorm.DB) {
 	db.Delete(&User{})
 
 	// Create some fake users
-	db.Create(&User{Name: "Rey", FavEmoji: "100", PublicId: "cGVvcGxlOjg1"})
-	db.Create(&User{Name: "BB8", FavEmoji: "fire", PublicId: "cGVvcGxlOjg3"})
-	db.Create(&User{Name: "Captain Phasma", FavEmoji: "doughnut", PublicId: "cGVvcGxlOjg4"})
+	db.Create(&User{Name: "Rey", FavEmoji: ":100:", PublicId: "cGVvcGxlOjg1"})
+	db.Create(&User{Name: "BB8", FavEmoji: ":fire:", PublicId: "cGVvcGxlOjg3"})
+	db.Create(&User{Name: "Captain Phasma", FavEmoji: ":doughnut:", PublicId: "cGVvcGxlOjg4"})
 	db.Create(&User{Name: "R2-D2", FavEmoji: "fire", PublicId: "cGVvcGxlOjM="})
-	db.Create(&User{Name: "Leia Organa", FavEmoji: "champagne", PublicId: "cGVvcGxlOjU="})
-	db.Create(&User{Name: "Padmé Amidala", FavEmoji: "cat2", PublicId: "cGVvcGxlOjM1"})
-	db.Create(&User{Name: "Jocasta Nu", FavEmoji: "dog", PublicId: "cGVvcGxlOjc0"})
-	db.Create(&User{Name: "C-3PO", FavEmoji: "pray", PublicId: "c3BlY2llczoy"})
+	db.Create(&User{Name: "Leia Organa", FavEmoji: ":champagne:", PublicId: "cGVvcGxlOjU="})
+	db.Create(&User{Name: "Padmé Amidala", FavEmoji: ":cat2:", PublicId: "cGVvcGxlOjM1"})
+	db.Create(&User{Name: "Jocasta Nu", FavEmoji: ":dog:", PublicId: "cGVvcGxlOjc0"})
+	db.Create(&User{Name: "C-3PO", FavEmoji: ":pray:", PublicId: "c3BlY2llczoy"})
 }
