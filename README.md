@@ -1,15 +1,23 @@
-# Emoji.voto
+# Emojivoto, for the purposes of exploring GraphQL
 
-A microservice application that allows users to vote for their favorite emoji,
-and tracks votes received on a leaderboard. May the best emoji win.
+The emojivoto application is a microservice application that allows users to
+vote for their favorite emoji, and tracks votes received on a leaderboard. May
+the best emoji win.
 
-The application is composed of the following 3 services:
+This demo is forked from https://github.com/BuoyantIO/emojivoto, and has a couple
+more data sources so that we can play around with stitching together data using
+GraphQL.
+
+The emojivoto application is composed of the following 3 services:
 
 * [emojivoto-web](emojivoto-web/): Web frontend and REST API
 * [emojivoto-emoji-svc](emojivoto-emoji-svc/): gRPC API for finding and listing emoji
 * [emojivoto-voting-svc](emojivoto-voting-svc/): gRPC API for voting and leaderboard
 
 ![Emojivoto Topology](assets/emojivoto-topology.png "Emojivoto Topology")
+
+In this fork, we've added a sqlite database of users and their favourite emoji,
+as well as a web API that fetches additional data about users.
 
 ## Running
 
@@ -97,3 +105,11 @@ View emojivoto
 ```
 open http://localhost:8080
 ```
+
+# Resources
+
+To play around more with a fully fledged GraphQL API, see
+https://graphql.github.io/swapi-graphql/
+
+More resources/tutorials:
+- https://github.com/MoonHighway/learning-graphql
