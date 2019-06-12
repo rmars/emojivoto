@@ -44,6 +44,7 @@ type Query {
 	hello(name: String!): String!
 	users: [User]!
 	emojis: [Emoji]!
+	emoji(shortcode: String!): Emoji
 }
 
 type User {
@@ -89,6 +90,14 @@ func (r *Resolver) Emojis(ctx context.Context) ([]*emojiResolver, error) {
 	}
 
 	return emojis, err
+}
+
+func (r *Resolver) Emoji(ctx context.Context, args *struct{ Shortcode string }) (*emojiResolver, error) {
+	emojiRsp, err := r.emojiServiceClient.FindByShortcode(ctx, &pb.FindByShortcodeRequest{
+		Shortcode: args.Shortcode,
+	})
+
+	return &emojiResolver{*r, emojiRsp.Emoji}, err
 }
 
 func (r *emojiResolver) Unicode() string {
