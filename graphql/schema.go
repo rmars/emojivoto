@@ -49,7 +49,7 @@ type Query {
 
 type User {
 	name: String!
-	favEmoji: String!
+	favEmoji: Emoji!
 }
 
 type Emoji {
@@ -77,8 +77,12 @@ func (r *userResolver) Name() string {
 	return r.u.Name
 }
 
-func (r *userResolver) FavEmoji() string {
-	return r.u.FavEmoji
+func (r *userResolver) FavEmoji(ctx context.Context) (*emojiResolver, error) {
+	emojiRsp, err := r.emojiServiceClient.FindByShortcode(ctx, &pb.FindByShortcodeRequest{
+		Shortcode: r.u.FavEmoji,
+	})
+
+	return &emojiResolver{r.Resolver, emojiRsp.Emoji}, err
 }
 
 func (r *Resolver) Emojis(ctx context.Context) ([]*emojiResolver, error) {
