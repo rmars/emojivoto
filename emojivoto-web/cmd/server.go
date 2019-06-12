@@ -4,8 +4,10 @@ import (
 	"log"
 	"os"
 
+	"github.com/buoyantio/emojivoto/db"
 	pb "github.com/buoyantio/emojivoto/emojivoto-web/gen/proto"
 	"github.com/buoyantio/emojivoto/emojivoto-web/web"
+	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	"google.golang.org/grpc"
 )
 
@@ -31,7 +33,12 @@ func main() {
 	emojiSvcClient := pb.NewEmojiServiceClient(emojiSvcConn)
 	defer emojiSvcConn.Close()
 
-	web.StartServer(webPort, webpackDevServerHost, indexBundle, emojiSvcClient, votingClient)
+	database, err := db.NewClient()
+	if err != nil {
+		panic("failed to connect database")
+	}
+
+	web.StartServer(webPort, webpackDevServerHost, indexBundle, database, emojiSvcClient, votingClient)
 }
 
 func openGrpcClientConnection(host string) *grpc.ClientConn {
