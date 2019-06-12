@@ -414,7 +414,7 @@ func StartServer(webPort, webpackDevServer, indexBundle string, database *db.DBC
 	emojiServiceClient pb.EmojiServiceClient,
 	votingClient pb.VotingServiceClient) {
 
-	schema := graphql.NewGraphQLServer(database)
+	schema := graphql.NewGraphQLServer(database, emojiServiceClient)
 
 	webApp := &WebApp{
 		db:                  database,
