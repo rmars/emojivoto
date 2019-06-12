@@ -42,6 +42,20 @@ func (app *WebApp) handleGraphqlPlayground(w http.ResponseWriter, req *http.Requ
 	return
 }
 
+func (app *WebApp) usersHandler(w http.ResponseWriter, r *http.Request) {
+	users, err := app.db.GetUsers()
+	if err != nil {
+		writeError(err, w, r, http.StatusInternalServerError)
+		return
+	}
+
+	err = writeJsonBody(w, http.StatusOK, users)
+
+	if err != nil {
+		writeError(err, w, r, http.StatusInternalServerError)
+	}
+}
+
 func (app *WebApp) listEmojiHandler(w http.ResponseWriter, r *http.Request) {
 	serviceResponse, err := app.emojiServiceClient.ListAll(r.Context(), &pb.ListAllEmojiRequest{})
 	if err != nil {
@@ -419,6 +433,7 @@ func StartServer(webPort, webpackDevServer, indexBundle string, database *db.DBC
 	http.HandleFunc("/api/list", webApp.listEmojiHandler)
 	http.HandleFunc("/api/vote", webApp.voteEmojiHandler)
 	http.HandleFunc("/api/leaderboard", webApp.leaderboardHandler)
+	http.HandleFunc("/api/users", webApp.usersHandler)
 
 	// graphql server and playground
 	http.HandleFunc("/api/graphql", webApp.handleGraphqlServer)

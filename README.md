@@ -110,3 +110,6 @@ open http://localhost:8080
 
 To play around more with a fully fledged GraphQL API, see
 https://graphql.github.io/swapi-graphql/
+
+More resources/tutorials:
+- https://github.com/MoonHighway/learning-graphql
