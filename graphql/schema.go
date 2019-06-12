@@ -1,15 +1,18 @@
 package graphql
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/buoyantio/emojivoto/db"
+	pb "github.com/buoyantio/emojivoto/emojivoto-web/gen/proto"
 	graphql "github.com/graph-gophers/graphql-go"
 )
 
 type (
 	Resolver struct {
-		db *db.DBClient
+		db                 *db.DBClient
+		emojiServiceClient pb.EmojiServiceClient
 	}
 
 	helloResolver struct {
@@ -25,6 +28,11 @@ type (
 		Resolver
 		u *db.User
 	}
+
+	emojiResolver struct {
+		Resolver
+		emoji *pb.Emoji
+	}
 )
 
 const Schema = `
@@ -35,11 +43,17 @@ schema {
 type Query {
 	hello(name: String!): String!
 	users: [User]!
+	emojis: [Emoji]!
 }
 
 type User {
 	name: String!
 	favEmoji: String!
+}
+
+type Emoji {
+	shortcode: String!
+	unicode: String!
 }
 `
 
@@ -66,6 +80,25 @@ func (r *userResolver) FavEmoji() string {
 	return r.u.FavEmoji
 }
 
-func NewGraphQLServer(db *db.DBClient) *graphql.Schema {
-	return graphql.MustParseSchema(Schema, &Resolver{db})
+func (r *Resolver) Emojis(ctx context.Context) ([]*emojiResolver, error) {
+	emojis := make([]*emojiResolver, 0)
+	emojiRsp, err := r.emojiServiceClient.ListAll(ctx, &pb.ListAllEmojiRequest{})
+
+	for _, emojiRsp := range emojiRsp.GetList() {
+		emojis = append(emojis, &emojiResolver{*r, emojiRsp})
+	}
+
+	return emojis, err
+}
+
+func (r *emojiResolver) Unicode() string {
+	return r.emoji.GetUnicode()
+}
+
+func (r *emojiResolver) Shortcode() string {
+	return r.emoji.GetShortcode()
+}
+
+func NewGraphQLServer(db *db.DBClient, emojiServiceClient pb.EmojiServiceClient) *graphql.Schema {
+	return graphql.MustParseSchema(Schema, &Resolver{db, emojiServiceClient})
 }
