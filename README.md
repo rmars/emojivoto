@@ -19,6 +19,18 @@ The emojivoto application is composed of the following 3 services:
 In this fork, we've added a sqlite database of users and their favourite emoji,
 as well as a web API that fetches additional data about users.
 
+## Checking out and running this code
+
+Because the go packages are imported under the fork's paths, you'll need to check
+out the parent repo and point your git remote to this repo in order to run the go code:
+
+```
+git clone https://github.com/BuoyantIO/emojivoto.git
+git remote add rmarsfork https://github.com/rmars/emojivoto.git
+git pull rmarsfork master
+git remote -v # you should see the fork's url here
+```
+
 ## Running
 
 ### In docker-compose

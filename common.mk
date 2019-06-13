@@ -1,4 +1,4 @@
-export IMAGE_TAG := v8
+export IMAGE_TAG := graphql
 
 .PHONY: package protoc test
 
