@@ -64,8 +64,7 @@ Use the following to run the emojivoto go services and develop on the frontend.
 
 Set up proto files, build apps
 ```
-bin/dep ensure # get dependencies
-make build
+make build # assumes you have dep installed
 ```
 
 Start the voting service

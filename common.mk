@@ -11,7 +11,7 @@ clean:
 	mkdir -p gen
 
 dep:
-	bin/dep ensure
+	dep ensure
 
 protoc:
 	protoc -I .. ../proto/*.proto --go_out=plugins=grpc:gen
