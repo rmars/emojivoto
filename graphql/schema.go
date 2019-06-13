@@ -43,11 +43,14 @@ type Query {
 	emoji(shortcode: String!): Emoji
 }
 
+# A user stored in our db
 type User {
 	name: String!
 	favEmoji: Emoji!
+	publicId: String!
 }
 
+# An emoji from the emoji grpc service
 type Emoji {
 	shortcode: String!
 	unicode: String!
@@ -71,6 +74,10 @@ func (r *Resolver) Users() ([]*userResolver, error) {
 
 func (r *userResolver) Name() string {
 	return r.u.Name
+}
+
+func (r *userResolver) PublicId() string {
+	return r.u.PublicId
 }
 
 func (r *userResolver) FavEmoji(ctx context.Context) (*emojiResolver, error) {
