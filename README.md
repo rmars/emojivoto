@@ -1,8 +1,10 @@
 # Emojivoto, for the purposes of exploring GraphQL
 
-This demo is forked from https://github.com/BuoyantIO/emojivoto, and has a couple
-more data sources so that we can play around with stitching together data using
-GraphQL.
+This demo is forked from https://github.com/BuoyantIO/emojivoto, and has a
+couple more data sources so that we can play around with stitching together data
+using GraphQL. I've broken down some basic tasks into separate PRs as tutorials,
+which you can [browse in the /pulls
+section](https://github.com/rmars/emojivoto/pulls?utf8=%E2%9C%93&q=is%3Apr+is%3Aclosed+tutorial).
 
 The emojivoto application is a microservice application that allows users to
 vote for their favorite emoji, and tracks votes received on a leaderboard. May
@@ -131,4 +133,10 @@ To play around more with a fully fledged GraphQL API, see
 https://graphql.github.io/swapi-graphql/
 
 More resources/tutorials:
+- StarWars API playground: https://graphql.github.io/swapi-graphql
+- Official Docs: https://graphql.org/learn/
+- Tutorial website: https://www.howtographql.com/
 - https://github.com/MoonHighway/learning-graphql
+- GraphQL libraries: https://graphql.org/code/
+- https://github.com/graph-gophers/graphql-go
+- https://medium.com/open-graphql/choosing-a-graphql-server-library-in-go-8836f893881b
