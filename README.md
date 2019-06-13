@@ -25,7 +25,11 @@ Because the go packages are imported under the fork's paths, you'll need to chec
 out the parent repo and point your git remote to this repo in order to run the go code:
 
 ```
+cd $GOPATH # make sure you're in your gopath
+mkdir -p buoyantio
+cd buoyantio
 git clone https://github.com/BuoyantIO/emojivoto.git
+cd emojivoto
 git remote add rmarsfork https://github.com/rmars/emojivoto.git
 git pull rmarsfork master
 git remote -v # you should see the fork's url here
@@ -60,6 +64,7 @@ Use the following to run the emojivoto go services and develop on the frontend.
 
 Set up proto files, build apps
 ```
+bin/dep ensure # get dependencies
 make build
 ```
 
