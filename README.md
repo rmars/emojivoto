@@ -1,12 +1,12 @@
 # Emojivoto, for the purposes of exploring GraphQL
 
-The emojivoto application is a microservice application that allows users to
-vote for their favorite emoji, and tracks votes received on a leaderboard. May
-the best emoji win.
-
 This demo is forked from https://github.com/BuoyantIO/emojivoto, and has a couple
 more data sources so that we can play around with stitching together data using
 GraphQL.
+
+The emojivoto application is a microservice application that allows users to
+vote for their favorite emoji, and tracks votes received on a leaderboard. May
+the best emoji win.
 
 The emojivoto application is composed of the following 3 services:
 
@@ -32,8 +32,9 @@ git remote -v # you should see the fork's url here
 ```
 
 ## Running
-
+<!---
 ### In docker-compose
+ docker-compose won't work until I add sqlite3 to the docker file
 
 It's possible to run the app with docker-compose.
 
@@ -45,23 +46,12 @@ make deploy-to-docker-compose
 
 The web app will be running on port 8080 of your docker host.
 
-### Generating some traffic
-
-The `VoteBot` service can generate some traffic for you. It votes on emoji
-"randomly" as follows:
-- It votes for :doughnut: 15% of the time.
-- When not voting for :doughnut:, it picks an emoji at random
-
-If you're running the app using the instructions above, the VoteBot will have
-been deployed and will start sending traffic to the vote endpoint.
-
-If you'd like to run the bot manually:
+If you've changed code and want to rebuild the docker images:
 ```
-export WEB_HOST=localhost:8080 # replace with your web location
-go run emojivoto-web/cmd/vote-bot/main.go
+make build-base-docker-image # build base docker image
+make build # build docker images
 ```
-
-## Local Development
+-->
 
 ### Emojivoto webapp
 
@@ -116,6 +106,19 @@ go run emojivoto-web/cmd/vote-bot/main.go
 View emojivoto
 ```
 open http://localhost:8080
+```
+
+### Generating some traffic to the emojivoto app
+
+The `VoteBot` service can generate some traffic for you. It votes on emoji
+"randomly" as follows:
+- It votes for :doughnut: 15% of the time.
+- When not voting for :doughnut:, it picks an emoji at random
+
+If you'd like to run the bot:
+```
+export WEB_HOST=localhost:8080 # replace with your web location
+go run emojivoto-web/cmd/vote-bot/main.go
 ```
 
 # Resources

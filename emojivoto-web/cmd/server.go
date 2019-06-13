@@ -1,13 +1,13 @@
 package main
 
 import (
-	"log"
 	"os"
 
 	"github.com/buoyantio/emojivoto/db"
 	pb "github.com/buoyantio/emojivoto/emojivoto-web/gen/proto"
 	"github.com/buoyantio/emojivoto/emojivoto-web/web"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
+	log "github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
 )
 
@@ -25,6 +25,11 @@ func main() {
 		log.Fatalf("WEB_PORT (currently [%s]) EMOJISVC_HOST (currently [%s]) and VOTINGSVC_HOST (currently [%s]) INDEX_BUNDLE (currently [%s]) environment variables must me set.", webPort, emojisvcHost, votingsvcHost, indexBundle)
 	}
 
+	formatter := &log.TextFormatter{
+		FullTimestamp: true,
+	}
+	log.SetFormatter(formatter)
+
 	votingSvcConn := openGrpcClientConnection(votingsvcHost)
 	votingClient := pb.NewVotingServiceClient(votingSvcConn)
 	defer votingSvcConn.Close()
@@ -35,7 +40,7 @@ func main() {
 
 	database, err := db.NewClient()
 	if err != nil {
-		panic("failed to connect database")
+		panic("failed to connect to sqlite database")
 	}
 
 	web.StartServer(webPort, webpackDevServerHost, indexBundle, database, emojiSvcClient, votingClient)

@@ -2,25 +2,6 @@
 
 
 [[projects]]
-  branch = "master"
-  digest = "1:01b547b814fba0fdf02fc7474ac7d0aa54ef4279dbfefd28af93427322e3b252"
-  name = "github.com/buoyantio/bcloud"
-  packages = [
-    "pkg/db",
-    "pkg/model",
-  ]
-  pruneopts = ""
-  revision = "070f6d550cc731584e6d171df32b620a6d17b02d"
-
-[[projects]]
-  digest = "1:e692d16fdfbddb94e9e4886aaf6c08bdbae5cb4ac80651445de9181b371c6e46"
-  name = "github.com/go-sql-driver/mysql"
-  packages = ["."]
-  pruneopts = ""
-  revision = "72cd26f257d44c1114970e19afddcd812016007e"
-  version = "v1.4.1"
-
-[[projects]]
   digest = "1:3dd078fda7500c341bc26cfbc6c6a34614f295a2457149fc1045cab767cbcf18"
   name = "github.com/golang/protobuf"
   packages = [
@@ -68,7 +49,6 @@
   name = "github.com/jinzhu/gorm"
   packages = [
     ".",
-    "dialects/mysql",
     "dialects/sqlite",
   ]
   pruneopts = ""
@@ -166,14 +146,6 @@
   version = "v0.3.0"
 
 [[projects]]
-  digest = "1:47f391ee443f578f01168347818cb234ed819521e49e4d2c8dd2fb80d48ee41a"
-  name = "google.golang.org/appengine"
-  packages = ["cloudsql"]
-  pruneopts = ""
-  revision = "b2f4a3cf3c67576a2ee09e1fe62656a5086ce880"
-  version = "v1.6.1"
-
-[[projects]]
   branch = "master"
   digest = "1:1aa609a0033ef2927e083f2e5e07203ca35fe21c4a24b563de9fea16ddaae9ba"
   name = "google.golang.org/genproto"
@@ -225,7 +197,6 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
-    "github.com/buoyantio/bcloud/pkg/db",
     "github.com/golang/protobuf/proto",
     "github.com/golang/protobuf/protoc-gen-go",
     "github.com/graph-gophers/graphql-go",

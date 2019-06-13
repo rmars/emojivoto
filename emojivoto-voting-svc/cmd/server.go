@@ -2,12 +2,12 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"net"
 	"os"
 
 	"github.com/buoyantio/emojivoto/emojivoto-voting-svc/api"
 	"github.com/buoyantio/emojivoto/emojivoto-voting-svc/voting"
+	log "github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
 )
 
@@ -30,6 +30,6 @@ func main() {
 
 	grpcServer := grpc.NewServer()
 	api.NewGrpServer(grpcServer, poll)
-	log.Printf("Starting grpc server on GRPC_PORT=[%s]", grpcPort)
+	log.Infof("Starting grpc server on GRPC_PORT=[%s]", grpcPort)
 	grpcServer.Serve(lis)
 }

@@ -2,12 +2,12 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"net"
 	"os"
 
 	"github.com/buoyantio/emojivoto/emojivoto-emoji-svc/api"
 	"github.com/buoyantio/emojivoto/emojivoto-emoji-svc/emoji"
+	log "github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
 )
 
@@ -30,6 +30,6 @@ func main() {
 
 	grpcServer := grpc.NewServer()
 	api.NewGrpServer(grpcServer, allEmoji)
-	log.Printf("Starting grpc server on GRPC_PORT=[%s]", grpcPort)
+	log.Infof("Starting grpc server on GRPC_PORT=[%s]", grpcPort)
 	grpcServer.Serve(lis)
 }

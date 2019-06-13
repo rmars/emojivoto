@@ -7,4 +7,6 @@ RUN apt-get update \
         iptables \
         jq \
         nghttp2 \
+        sqlite3 \
+        libsqlite3-dev \
     && rm -rf /var/lib/apt/lists/*
